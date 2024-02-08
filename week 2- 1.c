@@ -1,42 +1,67 @@
-
-#include<stdio.h>
-void main()
+#include <iostream>
+using namespace std;
+int binarysearch(int arr[],int left,int right,int key)
 {
-    int arr[50],n,m,p,i,j,k,flag,c;
-
-    printf("Enter the number of Test cases\n");
-    scanf("%d",&n);
-
-    for(i=0;i<n;i++)
+    if(left>right)
     {
-        printf("Enter the length of the array");
-        scanf("%d",&m);
-
-        printf("Enter the elements of array");
-        for(k=0; k<m; k++)
+        return 0;
+    }
+    int mid = (left+right)/2;
+    
+    if(key == arr[mid])
+    {
+        return mid;
+    }
+    else if(key>arr[mid])
+    {
+        binarysearch(arr,mid+1,right,key);
+    }
+    else
+    {
+        binarysearch(arr,left,mid - 1,key);
+    }
+}
+int main()
+{
+    int T;
+    cout<<" enter number of test cases"<<endl;
+    cin>>T;
+    while(T>0)
+    {
+        int n,key;
+        cin>>n;
+        int arr[n];
+        for(int i=0;i<n;i++)
         {
-            scanf("%d",&arr[k]);
+            cin>>arr[i];
         }
-        printf("Enter the key you want to search \n");
-        scanf("%d",&p);
-
-        flag=0;
-        c=0;
-        for(k=0;k<m;k++)
+        cin>>key;
+        
+        int index = binarysearch(arr,0,n,key);
+        if(index == 0)
         {
-            if(arr[k]==p)
-            {
-                c++;
-            }
-           
-        }
-        if(c>=1)
-        {
-            printf("Key %d is present with the duplicate of %d\n",p,c);
+            cout<<" element not found"<<endl;
         }
         else
         {
-            printf("Key %d is not present \n",p);
+            int count = 1;
+            int temp=index-1;
+            while(temp>0 && arr[temp]!=arr[index])
+            {
+                count++;
+                temp--;
+            }
+            temp = index + 1;
+            while(temp<n-1 && arr[temp]!=arr[index])
+            {
+                count++;
+                temp++;
+            }
+            cout << count;
         }
+        T--;
+        
     }
+
+    return 0;
 }
